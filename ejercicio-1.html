@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html {
+            box-sizing: border-box;
+            font-family: sans-serif;
+            font-size: 16px;
+        }
+
+        *,
+        *:before,
+        *:after {
+            box-sizing: inherit;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        main {
+            flex-grow: 1;
+        }
+
+        .container {
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 992px;
+        }
+
+        .header {
+            padding: .5rem;
+            background-color: antiquewhite;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 3rem;
+            height: auto;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: space-between;
+            font-size: 115%;
+        }
+
+        .menu a {
+            color: chocolate;
+            padding: 0 1vw;
+            transition: all .3s ease-in-out;
+        }
+
+        .menu a:hover {
+            opacity: .75;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <section class="header-content container">
+            <article class="logo">
+                <img src="https://jonmircha.com/img/kEnAi.svg" alt="logo">
+            </article>
+            <nav class="menu">
+                <a href="assets/home.html" class="home">Home</a>
+                <a href="assets/acerca.html" class="acerca">Acerca</a>
+                <a href="assets/servicios.html" class="servicios">Servicio</a>
+                <a href="assets/contacto.html" class="contacto">Contacto</a>
+            </nav>
+        </section>
+    </header>
+    <main class="container"></main>
+    <footer class="footer container">
+        <p>
+            <small>Sitio diseñado por Alan</small>
+        </p>
+    </footer>
+    <script>
+        const $main = document.querySelector('main')
+
+        const ajaxXHR = (e, path = null) => {
+            const xhr = new XMLHttpRequest();
+            // const fragment = document.createDocumentFragment();
+
+            xhr.addEventListener("readystatechange", (e) => {
+                if (xhr.readyState !== 4) return;
+
+                if (xhr.status >= 200 && xhr.status < 300) {
+                    let html = xhr.response
+
+                    $main.innerHTML = html
+                }
+            });
+            
+            xhr.open("GET", path || "assets/home.html");
+
+            xhr.send();
+        }
+        
+        document.addEventListener('DOMContentLoaded', ajaxXHR)
+
+        document.addEventListener('click', e => {
+            e.preventDefault();
+
+            if(e.target.matches('.home')) {
+                ajaxXHR();
+            }
+
+            if(e.target.matches('.acerca')) {
+                ajaxXHR(e, 'assets/acerca.html');
+            }
+
+            if(e.target.matches('.servicios')) {
+                ajaxXHR(e, 'assets/servicios.html');
+            }
+
+            if(e.target.matches('.contacto')) {
+                ajaxXHR(e, 'assets/contacto.html');
+            }
+        })
+    </script>
+</body>
+</html>
