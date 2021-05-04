@@ -96,44 +96,45 @@
     <script>
         const $main = document.querySelector('main')
 
-        const ajaxXHR = (e, path = null) => {
+        const ajaxXHR = (options) => {
+
+            let {url, success} = options;
+
             const xhr = new XMLHttpRequest();
-            // const fragment = document.createDocumentFragment();
 
             xhr.addEventListener("readystatechange", (e) => {
                 if (xhr.readyState !== 4) return;
 
                 if (xhr.status >= 200 && xhr.status < 300) {
                     let html = xhr.response
-
-                    $main.innerHTML = html
+                    success(html)
                 }
             });
             
-            xhr.open("GET", path || "assets/home.html");
+            xhr.open("GET", url);
 
             xhr.send();
         }
         
-        document.addEventListener('DOMContentLoaded', ajaxXHR)
+        document.addEventListener('DOMContentLoaded', e => {
+            ajaxXHR(
+                {
+                    url: 'assets/home.html',
+                    success: (html) => $main.innerHTML = html
+                }
+            )
+        })
 
         document.addEventListener('click', e => {
             e.preventDefault();
 
-            if(e.target.matches('.home')) {
-                ajaxXHR();
-            }
-
-            if(e.target.matches('.acerca')) {
-                ajaxXHR(e, 'assets/acerca.html');
-            }
-
-            if(e.target.matches('.servicios')) {
-                ajaxXHR(e, 'assets/servicios.html');
-            }
-
-            if(e.target.matches('.contacto')) {
-                ajaxXHR(e, 'assets/contacto.html');
+            if (e.target.matches('.menu a')) {
+                ajaxXHR(
+                    {
+                        url: e.target.href,
+                        success: (html) => $main.innerHTML = html
+                    }
+                )
             }
         })
     </script>
