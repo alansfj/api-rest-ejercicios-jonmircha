@@ -72,11 +72,12 @@
             opacity: .75;
         }
     </style>
+    <script src="assets/include-html.js"></script>
 </head>
 <body>
-    <header class="header"></header>
+    <div data-include="assets/header.html"></div>
     <main class="container"></main>
-    <footer class="footer container"></footer>
+    <div data-include="assets/footer.html"></div>
     <script>
         const $main = document.querySelector('main')
         const $header = document.querySelector('.header')
@@ -104,20 +105,6 @@
 
 
         document.addEventListener('DOMContentLoaded', e => {
-            ajaxXHR(
-                {
-                    url: 'assets/header.html',
-                    success: (html) => $header.innerHTML = html
-                }
-            )
-
-            ajaxXHR(
-                {
-                    url: 'assets/footer.html',
-                    success:(html) => $footer.innerHTML = html
-                }
-            )
-            
             ajaxXHR(
                 {
                     url: 'assets/home.html',
